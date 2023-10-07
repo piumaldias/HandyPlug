@@ -17,7 +17,8 @@ class MainStorePage extends StatefulWidget {
 class _MainStorePageState extends State<MainStorePage> {
   @override
   Widget build(BuildContext context) {
-    print("Current height is "+MediaQuery.of(context).size.height.toString());
+    //print("Current height is "+MediaQuery.of(context).size.height.toString());
+    //print("Current height is "+MediaQuery.of(context).size.width.toString());
     return Scaffold(
       body: Column(
         children: [
@@ -54,7 +55,10 @@ class _MainStorePageState extends State<MainStorePage> {
               ),
             ),
           ),
-          StorePageBody(),
+          Expanded(child: SingleChildScrollView(
+            child: StorePageBody(),
+          ))
+
         ],
       ),
     );

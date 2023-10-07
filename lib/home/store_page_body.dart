@@ -63,34 +63,120 @@ class _StorePageBodyState extends State<StorePageBody> {
           ),
         ),
         //Popular text
-        SizedBox(height: Dimensions.height30,),
+        SizedBox(
+          height: Dimensions.height30,
+        ),
         Container(
           margin: EdgeInsets.only(left: Dimensions.width30),
           child: Row(
             children: [
               BigText(text: "Popular"),
-              SizedBox(width: Dimensions.width10,),
+              SizedBox(
+                width: Dimensions.width10,
+              ),
               Container(
                 margin: const EdgeInsets.only(bottom: 3),
-                child: BigText(text: ".",color:Colors.black26,),
+                child: BigText(
+                  text: ".",
+                  color: Colors.black26,
+                ),
               ),
-              SizedBox(width: Dimensions.width10,),
+              SizedBox(
+                width: Dimensions.width10,
+              ),
               Container(
-                child: SmallText(text: "Top 10 items of the week",),
+                child: SmallText(
+                  text: "Top 10 items of the week",
+                ),
                 margin: const EdgeInsets.only(bottom: 2),
               )
             ],
           ),
         ),
+
         //list of items in popular products
-        ListView.builder(
-          itemCount: 10,
-            itemBuilder: (context,index ){
-            return Container(
-              margin: EdgeInsets.only(left: Dimensions.width20,right: Dimensions.width20),
-            )
-            }
-        )
+        Container(
+          child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.only(
+                      left: Dimensions.atomicWidth * 10,
+                      right: Dimensions.atomicWidth * 10,
+                      bottom: Dimensions.atomicHeight * 10),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: Dimensions.atomicHeight * 120,
+                        height: Dimensions.atomicHeight * 120,
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(Dimensions.radius20),
+                            color: Colors.white38,
+                            image: DecorationImage(
+                                image: AssetImage("assets/image/tool2.jpg"),
+                                fit: BoxFit.cover)),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: Dimensions.atomicHeight * 98,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(Dimensions.radius20),
+                                bottomRight:
+                                    Radius.circular(Dimensions.radius20)),
+                            color: Colors.white,
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                top: Dimensions.height15, left: 15, right: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                BigText(
+                                  text: "Titanium Hammer",
+                                  overFlow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(
+                                  height: Dimensions.height10,
+                                ),
+                                SmallText(
+                                    text:
+                                        "Heavy metal head attached to a handle and that is used for hitting nails or breaking things apart"),
+                                SizedBox(
+                                  height: Dimensions.height10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    IconAndTextWidget(
+                                        icon: Icons.circle_sharp,
+                                        text: "Normal",
+                                        iconColor: AppColors.iconColor1),
+                                    IconAndTextWidget(
+                                        icon: Icons.location_pin,
+                                        text: "1.7km",
+                                        iconColor: AppColors.mainColor),
+                                    IconAndTextWidget(
+                                        icon: Icons.timer_sharp,
+                                        text: "32min",
+                                        iconColor: AppColors.iconColor2)
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }),
+        ),
       ],
     );
   }
@@ -102,22 +188,20 @@ class _StorePageBodyState extends State<StorePageBody> {
       var currTrans = _height * (1 - currScale) / 2;
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
         ..setTranslationRaw(0, currTrans, 0);
-    }
-    else if (index == _currPageValue.floor() + 1) {
-      var currScale = _scaleFactor + (_currPageValue - index + 1) * (1 - _scaleFactor);
+    } else if (index == _currPageValue.floor() + 1) {
+      var currScale =
+          _scaleFactor + (_currPageValue - index + 1) * (1 - _scaleFactor);
       var currTrans = _height * (1 - currScale) / 2;
       //matrix = Matrix4.diagonal3Values(1, currScale, 1);
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
         ..setTranslationRaw(0, currTrans, 0);
-    }
-    else if (index == _currPageValue.floor() - 1) {
+    } else if (index == _currPageValue.floor() - 1) {
       var currScale = 1 - (_currPageValue - index) * (1 - _scaleFactor);
       var currTrans = _height * (1 - currScale) / 2;
       //matrix = Matrix4.diagonal3Values(1, currScale, 1);
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
         ..setTranslationRaw(0, currTrans, 0);
-    }
-    else {
+    } else {
       var currScale = _scaleFactor;
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
         ..setTranslationRaw(0, _height * (1 - _scaleFactor) / 2, 1);
@@ -128,7 +212,8 @@ class _StorePageBodyState extends State<StorePageBody> {
         children: [
           Container(
             height: Dimensions.pageViewContainer,
-            margin: EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
+            margin: EdgeInsets.only(
+                left: Dimensions.width10, right: Dimensions.width10),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radius30),
                 color: index.isEven ? Colors.blue : Colors.green,
@@ -140,7 +225,10 @@ class _StorePageBodyState extends State<StorePageBody> {
             alignment: Alignment.bottomCenter,
             child: Container(
               height: Dimensions.pageViewTextContainer,
-              margin: EdgeInsets.only(left: Dimensions.width30, right: Dimensions.width30, bottom: Dimensions.width30),
+              margin: EdgeInsets.only(
+                  left: Dimensions.width30,
+                  right: Dimensions.width30,
+                  bottom: Dimensions.width30),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(Dimensions.radius20),
                   color: Colors.white,
@@ -152,7 +240,8 @@ class _StorePageBodyState extends State<StorePageBody> {
                     BoxShadow(color: Colors.white, offset: Offset(-5, 0))
                   ]),
               child: Container(
-                padding: EdgeInsets.only(top: Dimensions.height15, left: 15, right: 15),
+                padding: EdgeInsets.only(
+                    top: Dimensions.height15, left: 15, right: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
