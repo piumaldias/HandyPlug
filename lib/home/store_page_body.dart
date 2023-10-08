@@ -86,7 +86,7 @@ class _StorePageBodyState extends State<StorePageBody> {
               ),
               Container(
                 child: SmallText(
-                  text: "Top 10 Items of the week", //master
+                  text: "Top 10 Items of the week", //test branch
                 ),
                 margin: const EdgeInsets.only(bottom: 2),
               )
