@@ -22,12 +22,23 @@ static double width15 = screenHeight/56.27;
 static double width20 = screenHeight/42.2;
 static double width30 = screenHeight/28.13;
 
+
+//fontisz
+static double font16= screenHeight/52;
 static double font20= screenHeight/42.2;
+static double font26= screenHeight/32.46;
 
 static double radius15 = screenHeight/56.27;
 static double radius20 = screenHeight/42.2;
 static double radius30 = screenHeight/28.13;
 
+//icon size
 static double iconSize24 =  screenHeight/35.17;
+static double iconSize16 = screenHeight /35.17;
+
+//populartoolds img
+static double popularToolsImgSize = screenHeight/2.1;
+//bottom height
+static double bottomHeightBar= screenHeight/7.03;
 
 }

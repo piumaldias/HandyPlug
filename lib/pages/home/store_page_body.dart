@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hardware_app/utils/colors.dart';
 import 'package:hardware_app/utils/dimensions.dart';
+import 'package:hardware_app/widgets/app_column.dart';
 import 'package:hardware_app/widgets/big_text.dart';
 import 'package:hardware_app/widgets/icon_and_text_widget.dart';
 import 'package:hardware_app/widgets/small_text.dart';
@@ -97,8 +98,8 @@ class _StorePageBodyState extends State<StorePageBody> {
         ),
 
         //list of items in popular products
-        Container(
-          child: ListView.builder(
+
+        ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: 10,
@@ -134,43 +135,7 @@ class _StorePageBodyState extends State<StorePageBody> {
                           child: Container(
                             padding: EdgeInsets.only(
                                 top: Dimensions.height15, left: 15, right: 15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                BigText(
-                                  text: "Titanium Hammer",
-                                  overFlow: TextOverflow.ellipsis,
-                                ),
-                                SizedBox(
-                                  height: Dimensions.height10,
-                                ),
-                                SmallText(
-                                    text:
-                                        "Heavy metal head attached to a handle and that is used for hitting nails or breaking things apart"),
-                                SizedBox(
-                                  height: Dimensions.height10,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    IconAndTextWidget(
-                                        icon: Icons.circle_sharp,
-                                        text: "Normal",
-                                        iconColor: AppColors.iconColor1),
-                                    IconAndTextWidget(
-                                        icon: Icons.location_pin,
-                                        text: "1.7km",
-                                        iconColor: AppColors.mainColor),
-                                    IconAndTextWidget(
-                                        icon: Icons.timer_sharp,
-                                        text: "32min",
-                                        iconColor: AppColors.iconColor2)
-                                  ],
-                                )
-                              ],
-                            ),
+                            child: AppColumn(text:"Titanium Hammer"),
                           ),
                         ),
                       )
@@ -178,7 +143,6 @@ class _StorePageBodyState extends State<StorePageBody> {
                   ),
                 );
               }),
-        ),
       ],
     );
   }
