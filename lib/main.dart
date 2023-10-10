@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:hardware_app/home/main_store_page.dart';
+import 'package:hardware_app/pages/home/main_store_page.dart';
+import 'package:hardware_app/pages/tools/popular_tools.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +21,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MainStorePage(),
+      home: PopularToolsDetail(),
+      //home: MainStorePage(),
+
     );
   }
 }
