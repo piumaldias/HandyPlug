@@ -8,7 +8,8 @@ class AppIcon extends StatelessWidget {
   final Color backgroundColor;
   final Color iconColor;
   final double size;
-  AppIcon({Key? key,
+
+  const AppIcon({Key? key,
   required this.icon,
 this.backgroundColor = const Color(0XffFcf4e4),
     this.iconColor = const Color(0xff756d54),
@@ -20,6 +21,7 @@ this.backgroundColor = const Color(0XffFcf4e4),
     return Container(
       width: size ,
       height: size,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(size/2),
         color: backgroundColor,
@@ -29,6 +31,7 @@ this.backgroundColor = const Color(0XffFcf4e4),
       color: iconColor,
       size: Dimensions.iconSize16,
       ),
+
     );
   }
 }

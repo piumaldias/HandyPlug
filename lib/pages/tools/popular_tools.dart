@@ -17,7 +17,68 @@ class PopularToolsDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppIcon(icon: Icons.arrow_back_ios,),
+                AppIcon(icon: Icons.shopping_cart_outlined)
+              ],
+            ),
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(120*Dimensions.atomicHeight),
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppColumn(text: "Titanium Hammer"),
+                    SizedBox(
+                      height: Dimensions.height20,
+                    ),
+                    BigText(text: "Description"),
+                    SizedBox(
+                      height: Dimensions.height20,
+                    ),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(Dimensions.radius20),
+                      topRight: Radius.circular(Dimensions.radius20)),
+                  color: Colors.white,
+                ),
+                padding: EdgeInsets.only(
+                    left: Dimensions.width20,
+                    right: Dimensions.width20,
+                    top: Dimensions.height20),
+              ),
+            ),
+            pinned: true,
+            expandedHeight: 400*Dimensions.atomicHeight,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.asset(
+                "assets/image/tool1.jpg",
+                width: double.maxFinite,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              padding: EdgeInsets.only(
+                  left: Dimensions.width20,
+                  right: Dimensions.width20,
+                  top: Dimensions.height20),
+              child: ExpandableTextWidget(
+                  text:
+                      "Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer .Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer .Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer .Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer .Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer"),
+            ),
+          )
+        ],
+      ),
+      /* body:  Stack(
         children: [
           //background img
           Positioned(
@@ -39,7 +100,7 @@ class PopularToolsDetail extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppIcon(icon: Icons.arrow_back_ios),
+                  AppIcon(icon: Icons.arrow_back_ios,),
                   AppIcon(icon: Icons.shopping_cart_outlined)
                 ],
               )),
@@ -56,8 +117,8 @@ class PopularToolsDetail extends StatelessWidget {
                     top: Dimensions.height20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(Dimensions.radius20),
-                    topRight: Radius.circular(Dimensions.radius20)
+                      topLeft: Radius.circular(Dimensions.radius20),
+                      topRight: Radius.circular(Dimensions.radius20)
                   ),
                   color: Colors.white,
                 ),
@@ -71,54 +132,73 @@ class PopularToolsDetail extends StatelessWidget {
                     //expandable text descript
                     Expanded(child: SingleChildScrollView(child: ExpandableTextWidget(text: "Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer .Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer .Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer .Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer .Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer")
                       ,))
-                    
-                    ],
+
+                  ],
                 ),
               ))
-          
+
         ],
-      ),
+      ),*/
       bottomNavigationBar: Container(
         height: Dimensions.bottomHeightBar,
-        padding: EdgeInsets.only(top: Dimensions.height30,bottom: Dimensions.height30,left: Dimensions.width20,right: Dimensions.width20),
+        padding: EdgeInsets.only(
+            top: Dimensions.height10,
+            bottom: Dimensions.height30,
+            left: Dimensions.width20,
+            right: Dimensions.width20),
         decoration: BoxDecoration(
-          color: AppColors.buttonBackgroundColor,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(Dimensions.radius20*2),
-            topLeft: Radius.circular(Dimensions.radius20*2),
-
-          )
-        ),
+            color: AppColors.buttonBackgroundColor,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(Dimensions.radius20 * 2),
+              topLeft: Radius.circular(Dimensions.radius20 * 2),
+            )),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              padding:EdgeInsets.only(top: Dimensions.height20,bottom: Dimensions.height20,left: Dimensions.width20,right: Dimensions.width20),
+              padding: EdgeInsets.only(
+                  top: Dimensions.height10,
+                  bottom: Dimensions.height10,
+                  left: Dimensions.width10,
+                  right: Dimensions.width10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radius20),
                 color: Colors.white,
-                
               ),
               child: Row(
                 children: [
-                  Icon((Icons.remove),color: AppColors.signColor,),
-                  SizedBox(width:Dimensions.width10/2),
+                  Icon(
+                    (Icons.remove),
+                    color: AppColors.signColor,
+                  ),
+                  SizedBox(width: Dimensions.width10 / 2),
                   BigText(text: "0"),
-                  SizedBox(width:Dimensions.width10/2),
-                  Icon(Icons.add,color: AppColors.signColor,)
+                  SizedBox(width: Dimensions.width10 / 2),
+                  Icon(
+                    Icons.add,
+                    color: AppColors.signColor,
+                  )
                 ],
               ),
             ),
             Container(
-        padding:EdgeInsets.only(top: Dimensions.height20,bottom: Dimensions.height20,left: Dimensions.width20,right: Dimensions.width20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Dimensions.radius20),
-          color: AppColors.mainColor,
-
-        ),
-        child: Row(
-
-          children: [BigText(text: "\$10",color: Colors.white,),SizedBox(width:Dimensions.width10/2),BigText(text: "Add to cart",color: Colors.white)]))
+                padding: EdgeInsets.only(
+                    top: Dimensions.height10,
+                    bottom: Dimensions.height10,
+                    left: Dimensions.width10,
+                    right: Dimensions.width10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  color: AppColors.mainColor,
+                ),
+                child: Row(children: [
+                  BigText(
+                    text: "\$10",
+                    color: Colors.white,
+                  ),
+                  SizedBox(width: Dimensions.width10 / 2),
+                  BigText(text: "Add to cart", color: Colors.white)
+                ]))
           ],
         ),
       ),

@@ -37,8 +37,8 @@ static double iconSize24 =  screenHeight/35.17;
 static double iconSize16 = screenHeight /35.17;
 
 //populartoolds img
-static double popularToolsImgSize = screenHeight/2.1;
+static double popularToolsImgSize = screenHeight/3.1;
 //bottom height
-static double bottomHeightBar= screenHeight/7.03;
+static double bottomHeightBar= screenHeight/10.03;
 
 }
