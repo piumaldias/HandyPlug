@@ -1,17 +1,30 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hardware_app/controllers/popular_product_controller.dart';
+import 'package:hardware_app/controllers/product_controller.dart';
 import 'package:hardware_app/pages/home/main_store_page.dart';
-import 'package:hardware_app/pages/tools/popular_tools.dart';
+import 'package:hardware_app/pages/tools/tools_detail.dart';
 import 'package:hardware_app/pages/tools/recommeded_tool_detail.dart';
-import 'helper/dependencies.dart' as dep;
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:hardware_app/routes/route_helper.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dep.init();
 
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  //final defaultApp = Firebase.app();
+
+
+  //await productController.getPopularProductList();
+  //Map<String, dynamic> p  =  await productController.particularItem('1');
+  //print('Firestore is configured with database URL: ${defaultApp.options.databaseURL}');
   runApp(const MyApp());
 }
 
@@ -21,19 +34,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    Get.find<PopularProductController>().getPopularProductList();
+    //Get.find<PopularProductController>().getPopularProductList();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-
-      home: PopularToolsDetail(),
-      //home: MainStorePage(),
-
+      
+      //home: PopularToolsDetail(),
+      home: MainStorePage(),
+      initialRoute: RouteHelper.initial,
+      getPages: RouteHelper.routes,
     );
   }
 }

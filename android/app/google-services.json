@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "941667943402",
+    "firebase_url": "https://handyplug-1e195-default-rtdb.firebaseio.com",
+    "project_id": "handyplug-1e195",
+    "storage_bucket": "handyplug-1e195.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941667943402:android:ed98c803e1c5dbdf6ee893",
+        "android_client_info": {
+          "package_name": "com.hardware.HandyPlug.hardware_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEfhdAQwHbYXy5qEIr0QaluAkbT4Rn8Mo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

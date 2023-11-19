@@ -1,43 +1,49 @@
-import 'package:flutter/foundation.dart';
+
 
 class Product {
-  int? _totalSize;
-  int? _typeId;
-  int? _offset;
+  String? _totalSize;
+  String? _typeId;
+  String? _offset;
   late List<ProductModel> _products;
   List<ProductModel> get products=>_products;
 
-  Product({required totalSize, required typeId, required offset, required products}){
+  Product({ totalSize,  typeId,  offset,  products}){
     this._totalSize=totalSize;
     this._typeId=typeId;
     this._offset=offset;
-    this._products=products;
+    this._products=products!;
   }
 
   Product.fromJson(Map<String, dynamic> json) {
     _totalSize = json['total_size'];
     _typeId = json['type_id'];
     _offset = json['offset'];
-    if (json['products'] != null) {
+    if (json['product_list'] != null) {
       _products = <ProductModel>[];
-      json['products'].forEach((v) {
-        _products!.add(ProductModel.fromJson(v));
-      });
+      if (json['product_list'] is Map<String, dynamic>) {
+        json['product_list'].values.forEach((productJson) {
+          _products.add(ProductModel.fromJson(productJson));
+        });
+      }
     }
   }
+  addfromJson(Map<String, dynamic> json) {
+    products.add(ProductModel.fromJson(json));
+  }
+
 }
 
 class ProductModel {
-  int? id;
+  String? id;
   String? name;
   String? description;
-  int? price;
-  int? stars;
+  String? price;
+  String? stars;
   String? img;
   String? location;
-  String? createdAt;
-  String? updatedAt;
-  int? typeId;
+  String? typeId;
+  String? store;
+
 
   ProductModel(
       {this.id,
@@ -47,9 +53,8 @@ class ProductModel {
       this.stars,
       this.img,
       this.location,
-      this.createdAt,
-      this.updatedAt,
-      this.typeId});
+      this.typeId,
+      this.store});
 
   ProductModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -59,8 +64,7 @@ class ProductModel {
     stars = json['stars'];
     img = json['img'];
     location = json['location'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    typeId = json['type_id'];
+    typeId = json['typeId'];
+    store =json['store'];
   }
 }

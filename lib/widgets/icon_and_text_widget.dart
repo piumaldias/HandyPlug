@@ -16,13 +16,17 @@ class IconAndTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon,color: iconColor,size:Dimensions.iconSize24,),
-        SizedBox(width: 5,),
-        SmallText(text: text),
+    return Container(
+      width: 80,
+      child: Row(
+        children: [
+          Icon(icon,color: iconColor,size:Dimensions.atomicWidth*15,),
+          SizedBox(width: 5*Dimensions.atomicWidth,),
+          SmallText(text: text,overFlow:TextOverflow.clip ,size: Dimensions.atomicWidth*12,),
 
-      ],
+        ]
+        ,
+      ),
     );
   }
 }

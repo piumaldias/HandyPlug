@@ -1,12 +1,21 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hardware_app/pages/tools/tools_detail.dart';
+import 'package:hardware_app/routes/route_helper.dart';
+
 import 'package:hardware_app/utils/colors.dart';
 import 'package:hardware_app/utils/dimensions.dart';
 import 'package:hardware_app/widgets/app_column.dart';
 import 'package:hardware_app/widgets/big_text.dart';
 import 'package:hardware_app/widgets/icon_and_text_widget.dart';
 import 'package:hardware_app/widgets/small_text.dart';
+
+import '../../controllers/popular_product_controller.dart';
+
+import '../../controllers/recomended_product_controller.dart';
+import '../../models/products_model.dart';
 
 class StorePageBody extends StatefulWidget {
   const StorePageBody({super.key});
@@ -22,7 +31,9 @@ class _StorePageBodyState extends State<StorePageBody> {
   var _scaleFactor = 0.8;
   double _height = 220;
 
-  @override
+  final PopularProductService _popularService = PopularProductService();
+  final RecomendedProductService _recomendedService =
+      RecomendedProductService();
   void initState() {
     super.initState();
     pageController.addListener(() {
@@ -42,48 +53,68 @@ class _StorePageBodyState extends State<StorePageBody> {
     return Column(
       children: [
         //slides section
-        Container(
-          height: Dimensions.pageView,
-          child: PageView.builder(
-              controller: pageController,
-              itemCount: 5,
-              itemBuilder: (context, position) {
-                return _buildPageItem(position);
-              }),
+        FutureBuilder(
+          future: _popularService.getProductsFromPopularIds(),
+          builder: (context, AsyncSnapshot<Product> snapshot) {
+            if (snapshot.data == null) {
+              // Handle the case when data is null
+              return CircularProgressIndicator();
+            } else {
+              Product product = snapshot.data ??
+                  Product(); // Use Product() or handle the case when data is null
+
+              return Container(
+                height: Dimensions.pageView,
+                child: PageView.builder(
+                  controller: pageController,
+                  itemCount: product.products
+                      .length, // Since you have only one product in the snapshot
+                  itemBuilder: (context, position) {
+                    return _buildPageItem(position, product);
+                  },
+                ),
+              );
+            }
+          },
         ),
         //dots
-        new DotsIndicator(
-          dotsCount: 5,
-          position: _currPageValue,
-          decorator: DotsDecorator(
-            activeColor: AppColors.mainColor,
-            size: const Size.square(9.0),
-            activeSize: const Size(18.0, 9.0),
-            activeShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0)),
-          ),
-        ),
+        FutureBuilder(
+            future: _popularService.getProductsFromPopularIds(),
+            builder: (context, AsyncSnapshot<Product> snapshot) {
+              if (snapshot.data == null) {
+                // Handle the case when data is null
+                return Text('Loading');
+              } else {
+                Product product = snapshot.data ?? Product();
+                return DotsIndicator(
+                  dotsCount:
+                      product.products.isEmpty ? 1 : product.products.length,
+                  position: _currPageValue,
+                  decorator: DotsDecorator(
+                    activeColor: AppColors.mainColor,
+                    size: const Size.square(9.0),
+                    activeSize: const Size(18.0, 9.0),
+                    activeShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0)),
+                  ),
+                );
+              }
+            }),
+
         //Popular text
         SizedBox(
-          height: Dimensions.height30,
+          height: Dimensions.height10,
         ),
         Container(
           margin: EdgeInsets.only(left: Dimensions.width30),
           child: Row(
             children: [
-              BigText(text: "Popular"),
+              BigText(text: "Recomended"),
               SizedBox(
                 width: Dimensions.width10,
               ),
-              Container(
-                margin: const EdgeInsets.only(bottom: 3),
-                child: BigText(
-                  text: ".",
-                  color: Colors.black26,
-                ),
-              ),
               SizedBox(
-                width: Dimensions.width10,
+                width: Dimensions.width30,
               ),
               Container(
                 child: SmallText(
@@ -94,58 +125,81 @@ class _StorePageBodyState extends State<StorePageBody> {
             ],
           ),
         ),
+        FutureBuilder(
+          future: _recomendedService.getProductsFromRecomendedIds(),
+          builder: (context, AsyncSnapshot<Product> snapshot) {
+            if (snapshot.data == null) {
+              // Handle the case when data is null
+              return CircularProgressIndicator();
+            } else {
+              Product product = snapshot.data ??
+                  Product(); // Use Product() or handle the case when data is null
+
+              return ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: product.products.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Get.toNamed(RouteHelper.getToolsDetail(index));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            left: Dimensions.atomicWidth * 10,
+                            right: Dimensions.atomicWidth * 10,
+                            bottom: Dimensions.atomicHeight * 10),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: Dimensions.atomicHeight * 120,
+                              height: Dimensions.atomicHeight * 120,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.radius20),
+                                  color: Colors.white38,
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                          product.products[index].img!))),
+                            ),
+                            Expanded(
+                              child: Container(
+                                height: Dimensions.atomicHeight * 110,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight:
+                                          Radius.circular(Dimensions.radius20),
+                                      bottomRight:
+                                          Radius.circular(Dimensions.radius20)),
+                                  color: Colors.white,
+                                ),
+                                child: Container(
+                                  padding: EdgeInsets.only(
+                                      top: Dimensions.height15,
+                                      left: 15,
+                                      right: 15),
+                                  child: AppColumn(
+                                      productList: product.products,
+                                      index: index),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+            }
+          },
+        ),
 
         //list of items in popular products
-
-        ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.only(
-                      left: Dimensions.atomicWidth * 10,
-                      right: Dimensions.atomicWidth * 10,
-                      bottom: Dimensions.atomicHeight * 10),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: Dimensions.atomicHeight * 120,
-                        height: Dimensions.atomicHeight * 120,
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(Dimensions.radius20),
-                            color: Colors.white38,
-                            image: DecorationImage(
-                                image: AssetImage("assets/image/tool2.jpg"),
-                                fit: BoxFit.cover)),
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: Dimensions.atomicHeight * 98,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(Dimensions.radius20),
-                                bottomRight:
-                                    Radius.circular(Dimensions.radius20)),
-                            color: Colors.white,
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.only(
-                                top: Dimensions.height15, left: 15, right: 15),
-                            child: AppColumn(text:"Titanium Hammer"),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              }),
       ],
     );
   }
 
-  Widget _buildPageItem(int index) {
+  Widget _buildPageItem(int index, Product popularProduct) {
     Matrix4 matrix = new Matrix4.identity();
     if (index == _currPageValue.floor()) {
       var currScale = 1 - (_currPageValue - index) * (1 - _scaleFactor);
@@ -170,20 +224,27 @@ class _StorePageBodyState extends State<StorePageBody> {
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
         ..setTranslationRaw(0, _height * (1 - _scaleFactor) / 2, 1);
     }
+
     return Transform(
       transform: matrix,
       child: Stack(
         children: [
-          Container(
-            height: Dimensions.pageViewContainer,
-            margin: EdgeInsets.only(
-                left: Dimensions.width10, right: Dimensions.width10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius30),
-                color: index.isEven ? Colors.blue : Colors.green,
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage("assets/image/tool1.jpg"))),
+          GestureDetector(
+            onTap: () {
+              Get.toNamed(RouteHelper.getToolsDetail(index));
+            },
+            child: Container(
+              height: Dimensions.pageViewContainer,
+              margin: EdgeInsets.only(
+                  left: Dimensions.width10, right: Dimensions.width10),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radius30),
+                  color: index.isEven ? Colors.blue : Colors.green,
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image:
+                          NetworkImage(popularProduct.products[index].img!))),
+            ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -209,7 +270,7 @@ class _StorePageBodyState extends State<StorePageBody> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BigText(text: "Titanium Hammer"),
+                    BigText(text: popularProduct.products[index].name!),
                     SizedBox(
                       height: Dimensions.height10,
                     ),
@@ -217,22 +278,21 @@ class _StorePageBodyState extends State<StorePageBody> {
                       children: [
                         Wrap(
                           children: List.generate(
-                              5,
+                              int.parse(popularProduct.products[index].stars!),
                               (index) => Icon(Icons.star,
                                   color: AppColors.mainColor, size: 15)),
                         ),
                         SizedBox(
-                          width: 10,
+                          width: 30 * Dimensions.atomicWidth,
                         ),
-                        SmallText(text: "4.5"),
+                        SmallText(text: popularProduct.products[index].stars!),
                         SizedBox(
-                          width: 10,
+                          width: 30 * Dimensions.atomicWidth,
                         ),
-                        SmallText(text: "1287"),
+                        SmallText(text: popularProduct.products[index].store!),
                         SizedBox(
-                          width: 10,
+                          width: 30 * Dimensions.atomicWidth,
                         ),
-                        SmallText(text: "comments"),
                       ],
                     ),
                     SizedBox(

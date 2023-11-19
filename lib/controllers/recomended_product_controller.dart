@@ -1,36 +1,36 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hardware_app/models/products_model.dart';
 
-class PopularProductService {
+class RecomendedProductService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  late Product _popularProduct;
-  Product get popularProduct => _popularProduct;
+  late Product _recomendedProduct;
+  Product get recomendedProduct => _recomendedProduct;
 
-  Future<List<String>> getPopularProductIds() async {
+  Future<List<String>> getRecomendedProductIds() async {
     try {
       // Replace 'products' with your actual collection name
-      DocumentSnapshot<Map<String, dynamic>> popularProductsDoc =
-          await _firestore.collection('products').doc('popular_product').get();
+      DocumentSnapshot<Map<String, dynamic>> recomendedProductsDoc =
+      await _firestore.collection('products').doc('recomended_products').get();
 
-      // Assuming 'product_list' is the field containing the IDs in the 'popular_products' document
+      // Assuming 'product_list' is the field containing the IDs in the 'recomended_products' document
       Map<String, dynamic> productMap =
-          popularProductsDoc['product_list'] ?? [];
+          recomendedProductsDoc['product_list'] ?? [];
 
       List<String> productList = productMap.values
           .map((entry) => entry['id']?.toString() ?? '')
           .toList();
       return productList;
     } catch (e) {
-      print('Error fetching popular product IDs: $e');
+      print('Error fetching recomended product IDs: $e');
       throw e;
     }
   }
 
-  Future<Product> getProductsFromPopularIds() async {
+  Future<Product> getProductsFromRecomendedIds() async {
     try {
-      List<String> popularProductIds = await getPopularProductIds();
+      List<String> recomendedProductIds = await getRecomendedProductIds();
       List<ProductModel>  productList =[];
-      for (String productId in popularProductIds) {
+      for (String productId in recomendedProductIds) {
         // Replace 'products' with your actual collection name
         QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
             .collection('products')
@@ -44,10 +44,10 @@ class PopularProductService {
           productList.add(ProductModel.fromJson(dataMap));
         }
       }
-      _popularProduct = Product(totalSize: popularProductIds.length.toString(),offset: '0',typeId: '1',products: productList);
-      return _popularProduct;
+      _recomendedProduct = Product(totalSize: recomendedProductIds.length.toString(),offset: '0',typeId: '1',products: productList);
+      return _recomendedProduct;
     } catch (e2) {
-      print('Error fetching products from popular product IDs: $e2');
+      print('Error fetching products from recomended product IDs: $e2');
       rethrow;
     }
   }

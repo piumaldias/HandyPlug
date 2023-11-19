@@ -1,11 +1,15 @@
-import 'package:get/get.dart';
-import 'package:hardware_app/data/api/api_client.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class PopularProductRepo extends GetxService {
-  final ApiClient apiClient;
-  PopularProductRepo({required this.apiClient});
-
-  Future<Response> getPopularProductList() async {
-    return await apiClient.getData("/api/v1/products/popular");
+class PopularProductRepo {
+  Future<DocumentSnapshot> getPopularProductDoc() async {
+    try {
+      DocumentSnapshot popularProductsDoc =
+      await FirebaseFirestore.instance.collection('products').doc('popular_product').get();
+      return popularProductsDoc;
+    } catch (e) {
+      print("Error getting popular products: $e");
+      throw e;
+    }
   }
 }
+
