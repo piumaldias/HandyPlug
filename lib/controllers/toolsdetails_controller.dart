@@ -7,7 +7,7 @@ class DetailsProductService {
   Future<ProductModel> getDetailsFromProductsIds(String productId) async {
     try {
 
-      ProductModel  detailedProduct = ProductModel();
+     // ProductModel  detailedProduct = ProductModel();
 
         // Replace 'products' with your actual collection name
         QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
@@ -18,7 +18,7 @@ class DetailsProductService {
             .get();
 
           Map<String, dynamic> dataMap = snapshot.docs.first.data() ?? {};
-          detailedProduct=ProductModel.fromJson(dataMap);
+        ProductModel detailedProduct=ProductModel.fromJson(dataMap);
 
 
       return detailedProduct;

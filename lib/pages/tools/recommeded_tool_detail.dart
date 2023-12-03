@@ -5,23 +5,20 @@ class RecommendedToolDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             flexibleSpace: FlexibleSpaceBar(
               background: Image.asset(
-              "assets/image/tool1.jpg",
-              width:double.maxFinite,
-fit: BoxFit.cover,
+                "assets/image/tool1.jpg",
+                width: double.maxFinite,
+                fit: BoxFit.cover,
               ),
-
-
             ),
           )
         ],
       ),
     );
   }
-
 }

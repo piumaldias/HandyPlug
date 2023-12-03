@@ -1,14 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:hardware_app/controllers/popular_product_controller.dart';
-import 'package:hardware_app/controllers/product_controller.dart';
 import 'package:hardware_app/pages/home/main_store_page.dart';
-import 'package:hardware_app/pages/tools/tools_detail.dart';
-import 'package:hardware_app/pages/tools/recommeded_tool_detail.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hardware_app/routes/route_helper.dart';
 import 'firebase_options.dart';

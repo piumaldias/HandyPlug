@@ -2,7 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hardware_app/pages/tools/tools_detail.dart';
+
 import 'package:hardware_app/routes/route_helper.dart';
 
 import 'package:hardware_app/utils/colors.dart';
@@ -32,8 +32,7 @@ class _StorePageBodyState extends State<StorePageBody> {
   double _height = 220;
 
   final PopularProductService _popularService = PopularProductService();
-  final RecomendedProductService _recomendedService =
-      RecomendedProductService();
+  final RecomendedProductService _recomendedService =RecomendedProductService();
   void initState() {
     super.initState();
     pageController.addListener(() {
@@ -46,12 +45,21 @@ class _StorePageBodyState extends State<StorePageBody> {
   @override
   void dispose() {
     pageController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Row(
+          children: [SizedBox(
+            width: 30*Dimensions.atomicWidth,
+            height: 40*Dimensions.atomicHeight,
+          ),
+            BigText(text: "Popular This week"),
+          ],
+        ),
         //slides section
         FutureBuilder(
           future: _popularService.getProductsFromPopularIds(),
@@ -179,7 +187,7 @@ class _StorePageBodyState extends State<StorePageBody> {
                                       top: Dimensions.height15,
                                       left: 15,
                                       right: 15),
-                                  child: AppColumn(
+                                  child: AppColumnSmall(
                                       productList: product.products,
                                       index: index),
                                 ),
@@ -289,6 +297,8 @@ class _StorePageBodyState extends State<StorePageBody> {
                         SizedBox(
                           width: 30 * Dimensions.atomicWidth,
                         ),
+                        Icon(Icons.shopping_bag_outlined,color: AppColors.iconColor1,size:Dimensions.atomicWidth*15,),
+                        SizedBox(width: 2*Dimensions.atomicWidth,),
                         SmallText(text: popularProduct.products[index].store!),
                         SizedBox(
                           width: 30 * Dimensions.atomicWidth,
@@ -302,9 +312,9 @@ class _StorePageBodyState extends State<StorePageBody> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconAndTextWidget(
-                            icon: Icons.circle_sharp,
-                            text: "Normal",
-                            iconColor: AppColors.iconColor1),
+                            icon: Icons.attach_money,
+                            text: popularProduct.products[index].price!,
+                            iconColor: Colors.green),
                         IconAndTextWidget(
                             icon: Icons.location_pin,
                             text: "1.7km",

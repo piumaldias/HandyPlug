@@ -13,11 +13,10 @@ import '../../controllers/toolsdetails_controller.dart';
 import '../../models/products_model.dart';
 import '../../utils/colors.dart';
 import '../../widgets/big_text.dart';
-
+import '../location/locate.dart';
 
 class ToolsDetail extends StatelessWidget {
   final int index;
-
 
   ToolsDetail({super.key, required this.index});
   DetailsProductService productDetail = DetailsProductService();
@@ -25,15 +24,26 @@ class ToolsDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-
-      future: productDetail.getDetailsFromProductsIds((index+1).toString()),
+      future: productDetail.getDetailsFromProductsIds((index + 1).toString()),
       builder: (context, AsyncSnapshot<ProductModel> snapshot) {
         if (snapshot.data == null) {
           // Handle the case when data is null
-          return CircularProgressIndicator();
+          return Container(
+              color: Colors.white,
+              child: Center(
+                child: SizedBox(
+                  width: 50.0, // Set your desired width
+                  height: 50.0, // Set your desired height
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        Colors.blue), // Set your desired color
+                  ),
+                ),
+              ));
         } else {
           ProductModel product = snapshot.data ??
-              ProductModel(); // Use Product() or handle the case when data is null
+              ProductModel.fromJson(snapshot.data!
+                  .toJson()); // Use Product() or handle the case when data is null
 
           return Scaffold(
             backgroundColor: Colors.white,
@@ -105,9 +115,7 @@ class ToolsDetail extends StatelessWidget {
                         left: Dimensions.width20,
                         right: Dimensions.width20,
                         top: Dimensions.height20),
-                    child: ExpandableTextWidget(
-                        text:
-                            "Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer .Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer .Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer .Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer .Hammer is a great thing. This is very usaful. Buy hammer Buy hammer Buy hammer Buy hammerBuy hammerBuy hammer Buy hammerBuy hammerBuy hammerBuy hammerBuy hammer"),
+                    child: ExpandableTextWidget(text: product.description),
                   ),
                 )
               ],
@@ -154,6 +162,31 @@ class ToolsDetail extends StatelessWidget {
                       ],
                     ),
                   ),
+              Container(
+                padding: EdgeInsets.only(
+                  top: Dimensions.height10,
+                  bottom: Dimensions.height10,
+                  left: Dimensions.width10,
+                  right: Dimensions.width10,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  color: AppColors.mainColor,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    // Open Google Maps with the location coordinates
+                    launchMapUrl(product.location,product.store);
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.map_rounded),
+                      SizedBox(width: Dimensions.width10 / 2),
+                      BigText(text: "Maps", color: Colors.white),
+                    ],
+                  ),
+                ),
+              ),
                   Container(
                       padding: EdgeInsets.only(
                           top: Dimensions.height10,
@@ -166,12 +199,8 @@ class ToolsDetail extends StatelessWidget {
                         color: AppColors.mainColor,
                       ),
                       child: Row(children: [
-                        BigText(
-                          text: "\$10",
-                          color: Colors.white,
-                        ),
                         SizedBox(width: Dimensions.width10 / 2),
-                        BigText(text: "Add to cart", color: Colors.white)
+                        BigText(text: "Add to cart", color: Colors.white),
                       ]))
                 ],
               ),

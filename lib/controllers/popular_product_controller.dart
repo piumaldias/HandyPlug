@@ -8,11 +8,10 @@ class PopularProductService {
 
   Future<List<String>> getPopularProductIds() async {
     try {
-      // Replace 'products' with your actual collection name
+
       DocumentSnapshot<Map<String, dynamic>> popularProductsDoc =
           await _firestore.collection('products').doc('popular_product').get();
 
-      // Assuming 'product_list' is the field containing the IDs in the 'popular_products' document
       Map<String, dynamic> productMap =
           popularProductsDoc['product_list'] ?? [];
 
@@ -31,7 +30,7 @@ class PopularProductService {
       List<String> popularProductIds = await getPopularProductIds();
       List<ProductModel>  productList =[];
       for (String productId in popularProductIds) {
-        // Replace 'products' with your actual collection name
+
         QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
             .collection('products')
             .doc('all_products')
